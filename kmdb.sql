@@ -137,9 +137,9 @@ CREATE TABLE actors (
     actor_name TEXT
 );
 
-CREATE TABLE characters (
+CREATE TABLE roles (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    character_name TEXT,
+    role_name TEXT,
     actor_id INTEGER,
     movie_id INTEGER
 );
@@ -180,6 +180,27 @@ INSERT INTO actors (
     ("Tom Hardy"), 
     ("Joseph Gordon-Levitt"), 
     ("Anne Hathaway");
+
+INSERT INTO roles (
+    role_name, actor_id, movie_id
+) VALUES 
+    ("Bruce Wayne", 1, 1), 
+    ("Alfred", 2, 1), 
+    ("Ra's Al Ghul", 3, 1), 
+    ("Rachel Dawes", 4, 1), 
+    ("Commissioner Gordon",5, 1),
+    ("Bruce Wayne", 6, 2), 
+    ("Joker", 7, 2), 
+    ("Harvey Dent", 8, 2),
+    ("Alfred", 2, 2),
+    ("Rachel Dawes", 4, 2),
+    ("Bruce Wayne", 6, 3),
+    ("Commissioner Gordon", 5, 3),
+    ("Bane", 9, 3), 
+    ("John Blake", 10, 3), 
+    ("Selina Kyle", 11, 3);
+
+
 
 -- Prints a header for the movies output
 .print "Movies"
