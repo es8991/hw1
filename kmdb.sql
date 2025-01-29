@@ -115,10 +115,15 @@
 DROP TABLE IF EXISTS movies;
 DROP TABLE IF EXISTS studios;
 DROP TABLE IF EXISTS actors;
-DROP TABLE IF EXISTS characters;
+DROP TABLE IF EXISTS roles;
 
 -- Create new tables, according to your domain model
 -- TODO!
+CREATE TABLE studios (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    studio_name TEXT
+);
+
 CREATE TABLE movies (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     movie_name TEXT,
@@ -127,10 +132,6 @@ CREATE TABLE movies (
     studio_id INTEGER
 );
 
-CREATE TABLE studios (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    studio_name TEXT
-);
 
 CREATE TABLE actors (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -156,16 +157,6 @@ INSERT INTO studios (
     "Warner Bros."
 );
 
-INSERT INTO movies (
-    movie_name,
-    release_date,
-    MPAA_rating,
-    studio_id
-) VALUES 
-    ("Batman Begins", "2005", "PG-13", 1), 
-    ("The Dark Knight", "2008", "PG-13", 1),
-    ("The Dark Knight Rises", "2012", "PG-13", 1);
-
 INSERT INTO actors (
     actor_name
 ) VALUES 
@@ -181,6 +172,16 @@ INSERT INTO actors (
     ("Joseph Gordon-Levitt"), 
     ("Anne Hathaway");
 
+INSERT INTO movies (
+    movie_name,
+    release_date,
+    MPAA_rating,
+    studio_id
+) VALUES 
+    ("Batman Begins", "2005", "PG-13", 1), 
+    ("The Dark Knight", "2008", "PG-13", 1),
+    ("The Dark Knight Rises", "2012", "PG-13", 1);
+
 INSERT INTO roles (
     role_name, actor_id, movie_id
 ) VALUES 
@@ -189,17 +190,18 @@ INSERT INTO roles (
     ("Ra's Al Ghul", 3, 1), 
     ("Rachel Dawes", 4, 1), 
     ("Commissioner Gordon",5, 1),
-    ("Bruce Wayne", 6, 2), 
-    ("Joker", 7, 2), 
-    ("Harvey Dent", 8, 2),
+
+    ("Bruce Wayne", 1, 2), 
+    ("Joker", 6, 2), 
+    ("Harvey Dent", 7, 2),
     ("Alfred", 2, 2),
-    ("Rachel Dawes", 4, 2),
-    ("Bruce Wayne", 6, 3),
+    ("Rachel Dawes", 8, 2),
+
+    ("Bruce Wayne", 1, 3),
     ("Commissioner Gordon", 5, 3),
     ("Bane", 9, 3), 
     ("John Blake", 10, 3), 
     ("Selina Kyle", 11, 3);
-
 
 
 -- Prints a header for the movies output
@@ -209,6 +211,9 @@ INSERT INTO roles (
 
 -- The SQL statement for the movies output
 -- TODO!
+SELECT movie_name, release_date, MPAA_rating, studio_name
+FROM movies
+INNER JOIN studios ON movies.studio_id = studios.id;
 
 -- Prints a header for the cast output
 .print ""
@@ -216,6 +221,11 @@ INSERT INTO roles (
 .print "========"
 .print ""
 
-
 -- The SQL statement for the cast output
 -- TODO!
+
+SELECT movies.movie_name, actors.actor_name, roles.role_name
+FROM roles
+INNER JOIN movies ON roles.movie_id = movies.id
+INNER JOIN actors ON roles.actor_id = actors.id
+ORDER BY movies.release_date, movies.movie_name;
